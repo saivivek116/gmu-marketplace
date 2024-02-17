@@ -21,32 +21,32 @@ const items = [
     {
         name: "Chair",
         price: "$30",
-        image: "/chair 1.webp", // replace with your image path
+        image: "/workspaces/gmu-marketplace/assets/chair 1.webp", // replace with your image path
     },
     {
         name: "Swivel Chair",
         price: "$40",
-        image: "/chair 2.webp", // replace with your image path
+        image: "/workspaces/gmu-marketplace/assets/chair 2.webp", // replace with your image path
     },
     {
         name: "Desktop table",
         price: "$30",
-        image: "/table 1.webp", // replace with your image path
+        image: "/workspaces/gmu-marketplace/assets/table 1.webp", // replace with your image path
     },
     {
         name: "Table with storage",
         price: "$40",
-        image: "/table 2.webp", // replace with your image path
+        image: "/workspaces/gmu-marketplace/assets/table 2.webp", // replace with your image path
     },
     {
         name: "Monitor with keyboard",
         price: "$30",
-        image: "/monitor 1.webp", // replace with your image path
+        image: "/workspaces/gmu-marketplace/assets/monitor 1.webp", // replace with your image path
     },
     {
         name: "Monitor",
         price: "$40",
-        image: "/monitor 2.webp", // replace with your image path
+        image: "/workspaces/gmu-marketplace/assets/monitor 2.webp", // replace with your image path
     },
     // ... more items
 ];

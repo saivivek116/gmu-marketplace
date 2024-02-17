@@ -52,6 +52,11 @@ export default function BaseLayout({ children }) {
                 >
                     <Toolbar>
                         {/* Other AppBar content */}
+                        <img
+                            src="/workspaces/gmu-marketplace/assets/gmu-logo.webp" // Replace with your logo path
+                            alt="Logo"
+                            style={{ marginRight: '10px', width: '50px', height: 'auto' }} // Adjust size as needed
+                        />
                         <Typography
                             variant="h6"
                             noWrap
@@ -60,6 +65,7 @@ export default function BaseLayout({ children }) {
                         >
                             {activePage || "Web App"}
                         </Typography>
+                        
                     </Toolbar>
                 </AppBar>
 
