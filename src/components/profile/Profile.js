@@ -34,22 +34,20 @@ function Profile() {
         // });
     }, []);
     return (
-        <ThemeProvider theme={theme}>
-            <Container>
-                <Typography variant="h4" gutterBottom>
-                    User Profile
-                </Typography>
-                <UserDetails />
-                <Typography variant="h5" gutterBottom>
-                    My Listed Products
-                </Typography>
-                <ListedProducts products={myProducts} />
-                <Typography variant="h5" gutterBottom>
-                    My Product Requests
-                </Typography>
-                <ProductRequests requests={myRequests} />
-            </Container>
-        </ThemeProvider>
+        <Container>
+            <Typography variant="h4" gutterBottom>
+                User Profile
+            </Typography>
+            <UserDetails />
+            <Typography variant="h5" gutterBottom>
+                My Listed Products
+            </Typography>
+            <ListedProducts products={myProducts} />
+            <Typography variant="h5" gutterBottom>
+                My Product Requests
+            </Typography>
+            <ProductRequests requests={myRequests} />
+        </Container>
     );
 }
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export default class RequestService {
+export class RequestService {
     async createRequest(request) {
         try {
             const response = await axios.post(

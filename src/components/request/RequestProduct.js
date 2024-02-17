@@ -38,63 +38,61 @@ function RequestProduct() {
     };
 
     return (
-        <ThemeProvider theme={theme}>
-            <Container>
-                <h2>Request a Product</h2>
-                <Box
-                    component="form"
-                    noValidate
-                    autoComplete="off"
-                    onSubmit={handleSubmit}
+        <Container>
+            <h2>Request a Product</h2>
+            <Box
+                component="form"
+                noValidate
+                autoComplete="off"
+                onSubmit={handleSubmit}
+            >
+                <TextField
+                    fullWidth
+                    label="Title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    margin="normal"
+                />
+                <TextField
+                    fullWidth
+                    select
+                    label="Category"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    margin="normal"
                 >
-                    <TextField
-                        fullWidth
-                        label="Title"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        margin="normal"
-                    />
-                    <TextField
-                        fullWidth
-                        select
-                        label="Category"
-                        value={category}
-                        onChange={(e) => setCategory(e.target.value)}
-                        margin="normal"
-                    >
-                        {categories.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
-                            </MenuItem>
-                        ))}
-                    </TextField>
-                    <Typography gutterBottom>Price Range</Typography>
-                    <Slider
-                        value={priceRange}
-                        onChange={handlePriceChange}
-                        valueLabelDisplay="auto"
-                        min={0}
-                        max={1000}
-                    />
-                    <Typography gutterBottom>Location Radius (km)</Typography>
-                    <Slider
-                        value={locationRadius}
-                        onChange={handleRadiusChange}
-                        valueLabelDisplay="auto"
-                        min={0}
-                        max={100}
-                    />
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        sx={{ mt: 3 }}
-                        color="primary"
-                    >
-                        Request
-                    </Button>
-                </Box>
-            </Container>
-        </ThemeProvider>
+                    {categories.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                </TextField>
+                <Typography gutterBottom>Price Range</Typography>
+                <Slider
+                    value={priceRange}
+                    onChange={handlePriceChange}
+                    valueLabelDisplay="auto"
+                    min={0}
+                    max={1000}
+                />
+                <Typography gutterBottom>Location Radius (km)</Typography>
+                <Slider
+                    value={locationRadius}
+                    onChange={handleRadiusChange}
+                    valueLabelDisplay="auto"
+                    min={0}
+                    max={100}
+                />
+                <Button
+                    type="submit"
+                    variant="contained"
+                    sx={{ mt: 3 }}
+                    color="primary"
+                >
+                    Request
+                </Button>
+            </Box>
+        </Container>
     );
 }
 

@@ -4,25 +4,40 @@ import Signup from "./components/signup/Signup";
 import Signin from "./components/signin/Signin";
 import Discover from "./components/home/Discover";
 import RequestProduct from "./components/request/RequestProduct";
-// import Message from "./components/messages/Messages.js";
 import Profile from "./components/profile/Profile";
+import Notifications from "./components/notifications/Notifications";
+import Post from "./components/post/Post";
+import Messages from "./components/messages/Messages";
+import BaseLayout from "./BaseLayout";
+import Error from "./Error";
 
-// Import the Registration component if you have one
+export const routes = [
+    { path: "/", element: <Signin /> },
+    { path: "/signin", element: <Signin /> },
+    { path: "/signup", element: <Signup /> },
+    { path: "/home", element: <Discover /> },
+    { path: "/request", element: <RequestProduct /> },
+    { path: "/profile", element: <Profile /> },
+    { path: "/notifications", element: <Notifications /> },
+    { path: "/post", element: <Post /> },
+    { path: "/messages", element: <Messages /> },
+    { path: "*", element: <Error /> },
+];
 
 function App() {
     return (
         <Router>
-            <Routes>
-                <Route path="/" element={<Signup />} />{" "}
-                {/* Set Login as the default route */}
-                <Route path="/signin" element={<Signin />} />
-                <Route path="/signup" element={<Signup />} />{" "}
-                {/* Include Registration route if exists */}
-                {/* You can add more routes here as needed */}
-                <Route path="/home" element={<Discover />} />
-                <Route path="/request" element={<RequestProduct />} />
-                <Route path="/profile" element={<Profile />} />
-            </Routes>
+            <BaseLayout>
+                <Routes>
+                    {routes.map((route, index) => (
+                        <Route
+                            key={index}
+                            path={route.path}
+                            element={route.element}
+                        />
+                    ))}
+                </Routes>
+            </BaseLayout>
         </Router>
     );
 }
