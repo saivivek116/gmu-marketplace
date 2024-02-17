@@ -38,6 +38,7 @@ const theme = createTheme({
 const logoUrl = "/workspaces/gmu-marketplace/assets/gmu-logo.webp"; // Update this path if your image is located elsewhere
 
 export default function Signin() {
+    console.log("changes");
   useEffect(() => {
     document.body.style.backgroundImage = `url(${logoUrl})`;
     document.body.style.backgroundSize = "cover";
