@@ -8,8 +8,7 @@ import {
     Container
 } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
-import { theme } from "../home/Discover";
-
+import { theme } from "../../BaseLayout";
 const categories = [
     { label: "Electronics", value: "electronics" },
     { label: "Furniture", value: "furniture" },
@@ -91,6 +90,7 @@ function Post() {
                             // onChange={...} // Add onChange handler for file input
                         />
                     </Button>
+                    <div>
                     <Button
                         type="submit"
                         variant="contained"
@@ -99,6 +99,7 @@ function Post() {
                     >
                         Post Listing
                     </Button>
+                    </div>
                 </Box>
             </Container>
         </ThemeProvider>
