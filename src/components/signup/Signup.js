@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Button,
   TextField,
@@ -33,15 +34,27 @@ const theme = createTheme({
   },
 });
 
+const BASE_URL = "https://200c-100-36-180-3.ngrok-free.app/users/add";
+
 // Background image URL
 const logoUrl = "/workspaces/gmu-marketplace/assets/gmu-logo.webp"; // Update this path if your image is located elsewhere
-
 export default function Signup() {
-  const [email, setEmail] = React.useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [netId, setNetId] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
+  // Define onChange handlers for each field
+  const handleFirstNameChange = (e) => setFirstName(e.target.value);
+  const handleLastNameChange = (e) => setLastName(e.target.value);
+  const handleNetIdChange = (e) => setNetId(e.target.value);
+  const handlePasswordChange = (e) => setPassword(e.target.value);
+  const handleConfirmPasswordChange = (e) => setConfirmPassword(e.target.value);
+  const handleEmailChange = (e) => setEmail(e.target.value);
 
   const isEmailValid = email.endsWith("@gmu.edu");
 
@@ -60,6 +73,34 @@ export default function Signup() {
       document.body.style.backgroundAttachment = "";
     };
   }, []);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await axios.post(BASE_URL, {
+        firstName,
+        lastName,
+        netId,
+        email,
+        password,
+        status: "active" // Assuming this is the format your backend expects
+      });
+      setLoading(false);
+      // Handle successful registration
+      // Redirect to the Discover page or display a success message
+      console.log("Registration successful", response.data);
+    } catch (error) {
+      console.error("Registration failed:", error);
+      setError(error.response?.data?.message || "Registration failed.");
+    }
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -97,19 +138,47 @@ export default function Signup() {
               >
                 Sign up
               </Typography>
-              <form style={{ width: "100%", marginTop: 3 }}>
+              <form style={{ width: "100%", marginTop: 3 }} onSubmit={handleSubmit}>
                 <TextField
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
                   variant="outlined"
                   margin="normal"
                   required
                   fullWidth
-                  id="name"
-                  label="Name"
-                  name="name"
-                  autoComplete="name"
+                  id="firstName"
+                  label="First Name"
+                  name="firstName"
+                  autoComplete="fname"
                   autoFocus
                 />
                 <TextField
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="lastName"
+                  label="Last Name"
+                  name="lastName"
+                  autoComplete="lname"
+                />
+                <TextField
+                  value={netId}
+                  onChange={(e) => setNetId(e.target.value)}
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="netId"
+                  label="NetID"
+                  name="netId"
+                  autoComplete="net-id"
+                />
+                <TextField
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   variant="outlined"
                   margin="normal"
                   required
@@ -118,16 +187,12 @@ export default function Signup() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  value={email}
-                  onChange={handleEmailChange}
                   error={!isEmailValid && email.length > 0}
-                  helperText={
-                    !isEmailValid && email.length > 0
-                      ? "Email must be a GMU address (ends with @gmu.edu)"
-                      : ""
-                  }
+                  helperText={!isEmailValid && email.length > 0 ? "Email must be a GMU address (ends with @gmu.edu)" : ""}
                 />
                 <TextField
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   variant="outlined"
                   margin="normal"
                   required
@@ -139,6 +204,8 @@ export default function Signup() {
                   autoComplete="current-password"
                 />
                 <TextField
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   variant="outlined"
                   margin="normal"
                   required
@@ -148,16 +215,13 @@ export default function Signup() {
                   type="password"
                   id="confirm-password"
                 />
-                {/* Include Captcha or Security Check here if needed */}
+                {error && <Typography color="error">{error}</Typography>}
                 <Button
                   type="submit"
                   fullWidth
                   variant="contained"
                   color="secondary"
-                  style={{
-                    margin: "24px 0px 16px",
-                    backgroundColor: "#FFCC33",
-                  }}
+                  style={{ margin: "24px 0px 16px", backgroundColor: "#FFCC33" }}
                   disabled={!isEmailValid}
                 >
                   Sign Up
