@@ -16,6 +16,7 @@ import {
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import logo from "../public/assets/gmu-logo.webp";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 const menuItems = [
@@ -40,6 +41,7 @@ export const theme = createTheme({
 
 export default function BaseLayout({ children }) {
     const location = useLocation();
+    let navigate = useNavigate();
     const activePage = menuItems.find(
         (item) => location.pathname === item.path
     )?.text;
@@ -47,6 +49,10 @@ export default function BaseLayout({ children }) {
         console.log(location.pathname);
         return <>{children}</>;
     }
+    const logout = () => {
+        localStorage.removeItem("token");
+        navigate("/signin");
+    };
 
     return (
         <ThemeProvider theme={theme}>
@@ -75,9 +81,10 @@ export default function BaseLayout({ children }) {
                         >
                             {activePage || "Web App"}
                         </Typography>
-                        <Link to="/signin" style={{ textDecoration: "none" }}>
-                            <Button color="secondary">Sign Out</Button>
-                        </Link>
+
+                        <Button color="secondary" onClick={logout}>
+                            Sign Out
+                        </Button>
                     </Toolbar>
                 </AppBar>
 
