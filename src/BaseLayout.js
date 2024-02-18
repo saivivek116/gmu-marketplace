@@ -51,6 +51,7 @@ export default function BaseLayout({ children }) {
     }
     const logout = () => {
         localStorage.removeItem("token");
+        localStorage.removeItem("userDetails");
         navigate("/signin");
     };
 

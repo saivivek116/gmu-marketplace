@@ -12,6 +12,33 @@ const Notifications = () => {
             timestamp: "2023-02-17T12:34:56Z",
             read: false,
         },
+        {
+            id: 101,
+            title: "Smartphone",
+            message: "A high-end smartphone with advanced features.",
+            price: 799.99,
+            brand: "XYZ",
+            in_stock: true,
+            timestamp: "2024-02-18T09:30:00Z",
+        },
+        {
+            id: 102,
+            title: "Laptop",
+            message: "Thin and light laptop with powerful performance.",
+            price: 1299.99,
+            brand: "ABC",
+            in_stock: false,
+            timestamp: "2024-02-18T09:35:00Z",
+        },
+        {
+            id: 103,
+            title: "Headphones",
+            message: "Wireless headphones with noise-cancellation technology.",
+            price: 249.99,
+            brand: "DEF",
+            in_stock: true,
+            timestamp: "2024-02-18T09:40:00Z",
+        },
     ]);
 
     useEffect(() => {

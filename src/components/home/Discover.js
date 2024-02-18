@@ -74,6 +74,8 @@ const Discover = () => {
         }
         getProducts();
     }, []);
+
+    if (loading) return <h1>Loading...</h1>;
     return (
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
             <Toolbar />
@@ -82,7 +84,7 @@ const Discover = () => {
                     <Grid item xs={12} sm={6} md={4} key={item.id}>
                         <Card
                             onClick={() => {
-                                navigate(`/product/${index}`);
+                                navigate(`/product/${item.id}`);
                             }}
                         >
                             <CardMedia

@@ -13,6 +13,7 @@ import Error from "./Error";
 import ProtectedRoute from "./ProtectedRoute";
 import { AuthProvider } from "./AuthContext";
 import ProductDetailsPage from "./components/productdetails/ProductDetails";
+import { Toaster } from "react-hot-toast";
 
 export const routes = [
     { path: "/", element: <Signin /> },
@@ -54,6 +55,7 @@ function App() {
                     </Routes>
                 </BaseLayout>
             </Router>
+            <Toaster position="bottom-right" />
         </AuthProvider>
     );
 }

@@ -1,131 +1,209 @@
-import React from "react";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import React, { useState } from "react";
+import {
+    Container,
+    Grid,
+    Paper,
+    List,
+    ListItem,
+    ListItemText,
+    Typography,
+    TextField,
+    Button,
+} from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 
-function Messages() {
-    return (
-        <Box sx={{ flexGrow: 1, overflow: "hidden", p: 2 }}>
-            <Grid container spacing={2}>
-                <Grid item xs={12} md={4}>
-                    <SidebarChat />
-                </Grid>
-                <Grid item xs={12} md={8}>
-                    <ChatArea />
-                </Grid>
-            </Grid>
-        </Box>
-    );
-}
+const Messages = () => {
+    const [selectedConversation, setSelectedConversation] = useState(null);
+    const [messageInput, setMessageInput] = useState("");
+    const [messages, setMessages] = useState([]);
 
-const SidebarChat = () => {
-    const users = [
-        {
-            name: "John Doe",
-            image: "https://via.placeholder.com/150",
-        },
-        {},
-    ];
-    return (
-        <List
-            sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-        >
-            {users.map((user, index) => (
-                <ListItem button key={index}>
-                    <Avatar alt={user.name} src={user.avatar} />
-                    <ListItemText primary={user.name} />
-                </ListItem>
-            ))}
-        </List>
-    );
-};
-
-const ChatArea = () => {
-    const [messages, setMessages] = React.useState([
+    // Dummy data for representational purposes
+    const conversations = [
         {
             id: 1,
-            sender: "John Doe",
-            text: "Hello",
-            receiver: "vivek",
+            name: "John Doe",
+            messages: [
+                { id: 1, sender: "John Doe", content: "Hi there!" },
+                { id: 2, sender: "You", content: "Hello, John!" },
+            ],
         },
         {
             id: 2,
-            sender: "vivek",
-            text: "Hello",
-            receiver: "Jane Doe",
+            name: "Jane Smith",
+            messages: [
+                { id: 1, sender: "Jane Smith", content: "Hey!" },
+                { id: 2, sender: "You", content: "Hi, Jane!" },
+            ],
         },
-    ]);
-    const [message, setMessage] = React.useState("");
-    const currentUser = "John Doe";
-    const sendMessage = () => {
-        console.log(message);
-        setMessage("");
+        {
+            id: 3,
+            name: "Alice Johnson",
+            messages: [
+                { id: 1, sender: "You", content: "Hey Alice!" },
+                { id: 2, sender: "Alice Johnson", content: "Hello!" },
+            ],
+        },
+        {
+            id: 4,
+            name: "Bob Brown",
+            messages: [
+                { id: 1, sender: "You", content: "Hi Bob!" },
+                { id: 2, sender: "Bob Brown", content: "Hi, how are you?" },
+            ],
+        },
+    ];
+
+    const handleMessageSend = () => {
+        // Handle sending message logic here
+        const newMessage = {
+            sender: "You",
+            content: messageInput,
+        };
+        setMessages([...messages, newMessage]);
+        setMessageInput("");
     };
+
     return (
-        <Box sx={{ p: 2 }}>
-            <Box
-                sx={{
-                    my: 2,
-                    p: 2,
-                    border: "1px solid #e0e0e0",
-                    height: "70vh",
-                    overflowY: "auto",
-                }}
-            >
-                {
-                    //based on the sender and receiver, we should change the alignment
-                    messages.map((message) => (
-                        <Box
-                            key={message.id}
-                            sx={{
-                                display: "flex",
-                                justifyContent:
-                                    message.sender === currentUser
-                                        ? "flex-end"
-                                        : "flex-start",
-                            }}
-                        >
-                            <Box
-                                sx={{
-                                    p: 1,
-                                    bgcolor:
-                                        message.sender === currentUser
-                                            ? "primary.main"
-                                            : "secondary.main",
-                                    color: "white",
-                                    borderRadius: "10px",
-                                }}
-                            >
-                                {message.text}
-                            </Box>
-                        </Box>
-                    ))
-                }
-            </Box>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-                <TextField
-                    fullWidth
-                    placeholder="Type a message..."
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    variant="outlined"
-                />
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={sendMessage}
-                    sx={{ ml: 1 }}
-                >
-                    <SendIcon />
-                </Button>
-            </Box>
-        </Box>
+        <Container style={{ flexGrow: 1, marginTop: "2rem" }}>
+            <Grid container spacing={3}>
+                <Grid item xs={3}>
+                    <Paper
+                        style={{
+                            backgroundColor: "#eeeeee",
+                            borderRight: "1px solid #ccc",
+                            height: "80vh",
+                            overflow: "auto",
+                            padding: "1rem",
+                        }}
+                    >
+                        <Typography variant="h5" gutterBottom>
+                            User List
+                        </Typography>
+                        <List>
+                            {conversations.map((conversation) => (
+                                <ListItem
+                                    key={conversation.id}
+                                    button
+                                    selected={
+                                        selectedConversation === conversation.id
+                                    }
+                                    onClick={() =>
+                                        setSelectedConversation(conversation.id)
+                                    }
+                                >
+                                    <ListItemText primary={conversation.name} />
+                                </ListItem>
+                            ))}
+                        </List>
+                    </Paper>
+                </Grid>
+                <Grid item xs={9}>
+                    <Paper
+                        style={{
+                            padding: "1rem",
+                            height: "80vh",
+                            overflow: "auto",
+                            position: "relative",
+                        }}
+                    >
+                        {selectedConversation ? (
+                            <>
+                                <Typography variant="h5">
+                                    Chat with{" "}
+                                    {
+                                        conversations.find(
+                                            (convo) =>
+                                                convo.id ===
+                                                selectedConversation
+                                        ).name
+                                    }
+                                </Typography>
+                                {/* Chat window */}
+                                <div
+                                    style={{
+                                        marginTop: "1em",
+                                        marginBottom: "3rem",
+                                    }}
+                                >
+                                    {conversations
+                                        .find(
+                                            (convo) =>
+                                                convo.id ===
+                                                selectedConversation
+                                        )
+                                        .messages.map((message) => (
+                                            <div
+                                                key={message.id}
+                                                style={{
+                                                    marginBottom: "0.5em",
+                                                    backgroundColor:
+                                                        message.sender === "You"
+                                                            ? "#DCF8C6"
+                                                            : "#E0E0E0",
+                                                    padding: "0.5rem",
+                                                    borderRadius: "8px",
+                                                    textAlign:
+                                                        message.sender === "You"
+                                                            ? "right"
+                                                            : "left",
+                                                }}
+                                            >
+                                                <Typography
+                                                    variant="subtitle1"
+                                                    style={{
+                                                        fontWeight: "bold",
+                                                    }}
+                                                >
+                                                    {message.sender}
+                                                </Typography>
+                                                <Typography variant="body1">
+                                                    {message.content}
+                                                </Typography>
+                                            </div>
+                                        ))}
+                                </div>
+                                {/* Message input */}
+                                <div
+                                    style={{
+                                        position: "absolute",
+                                        bottom: 0,
+                                        left: 0,
+                                        width: "calc(100% - 48px)",
+                                    }}
+                                >
+                                    <TextField
+                                        variant="outlined"
+                                        placeholder="Type your message..."
+                                        fullWidth
+                                        value={messageInput}
+                                        onChange={(e) =>
+                                            setMessageInput(e.target.value)
+                                        }
+                                    />
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={handleMessageSend}
+                                        style={{
+                                            position: "absolute",
+                                            bottom: 0,
+                                            right: 0,
+                                            top: 0,
+                                        }}
+                                    >
+                                        <SendIcon />
+                                    </Button>{" "}
+                                </div>
+                            </>
+                        ) : (
+                            <Typography variant="h5">
+                                Select a conversation to start chatting
+                            </Typography>
+                        )}
+                    </Paper>
+                </Grid>
+            </Grid>
+        </Container>
     );
 };
 

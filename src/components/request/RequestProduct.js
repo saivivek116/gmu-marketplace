@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
 import { theme } from "../home/Discover";
+import toast from "react-hot-toast";
 
 const categories = [
     { label: "Category 1", value: "category1" },
@@ -26,7 +27,13 @@ function RequestProduct() {
     const handleSubmit = (event) => {
         event.preventDefault();
         // Handle form submission logic here
-        console.log({ title, category, priceRange, locationRadius });
+        setTitle("");
+        setCategory("");
+        setPriceRange([20, 40]);
+        setLocationRadius(0);
+        toast.success(
+            "Request Submitted! We will notify you when we find a match!"
+        );
     };
 
     const handlePriceChange = (event, newValue) => {
@@ -89,7 +96,7 @@ function RequestProduct() {
                     sx={{ mt: 3 }}
                     color="primary"
                 >
-                    Request
+                    Notify me
                 </Button>
             </Box>
         </Container>
