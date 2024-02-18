@@ -10,6 +10,8 @@ import Post from "./components/post/Post";
 import Messages from "./components/messages/Messages";
 import BaseLayout from "./BaseLayout";
 import Error from "./Error";
+import ProtectedRoute from "./ProtectedRoute";
+import { AuthProvider } from "./AuthContext";
 
 export const routes = [
     { path: "/", element: <Signin /> },
@@ -26,19 +28,31 @@ export const routes = [
 
 function App() {
     return (
-        <Router>
-            <BaseLayout>
-                <Routes>
-                    {routes.map((route, index) => (
-                        <Route
-                            key={index}
-                            path={route.path}
-                            element={route.element}
-                        />
-                    ))}
-                </Routes>
-            </BaseLayout>
-        </Router>
+        <AuthProvider>
+            <Router>
+                <BaseLayout>
+                    <Routes>
+                        {routes.map((route, index) => (
+                            <Route
+                                key={index}
+                                path={route.path}
+                                element={
+                                    ["/signin", "/signup"].includes(
+                                        route.path
+                                    ) ? (
+                                        route.element
+                                    ) : (
+                                        <ProtectedRoute>
+                                            {route.element}
+                                        </ProtectedRoute>
+                                    )
+                                }
+                            />
+                        ))}
+                    </Routes>
+                </BaseLayout>
+            </Router>
+        </AuthProvider>
     );
 }
 

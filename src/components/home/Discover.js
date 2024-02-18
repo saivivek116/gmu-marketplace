@@ -17,37 +17,43 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { theme } from "../../BaseLayout";
+import chair from "../../../public/assets/chair2.webp";
+import chair2 from "../../../public/assets/chair2.webp";
+import table1 from "../../../public/assets/table 1.webp";
+import table2 from "../../../public/assets/table 2.webp";
+import monitor1 from "../../../public/assets/monitor 1.webp";
+import monitor2 from "../../../public/assets/monitor 2.webp";
 
 const items = [
     {
         name: "Chair",
         price: "$30",
-        image: "/workspaces/gmu-marketplace/assets/chair 1.webp", // replace with your image path
+        image: chair, // replace with your image path
     },
     {
         name: "Swivel Chair",
         price: "$40",
-        image: "/workspaces/gmu-marketplace/assets/chair 2.webp", // replace with your image path
+        image: chair2, // replace with your image path
     },
     {
         name: "Desktop table",
         price: "$30",
-        image: "/workspaces/gmu-marketplace/assets/table 1.webp", // replace with your image path
+        image: table1, // replace with your image path
     },
     {
         name: "Table with storage",
         price: "$40",
-        image: "/workspaces/gmu-marketplace/assets/table 2.webp", // replace with your image path
+        image: table2, // replace with your image path
     },
     {
         name: "Monitor with keyboard",
         price: "$30",
-        image: "/workspaces/gmu-marketplace/assets/monitor 1.webp", // replace with your image path
+        image: monitor1, // replace with your image path
     },
     {
         name: "Monitor",
         price: "$40",
-        image: "/workspaces/gmu-marketplace/assets/monitor 2.webp", // replace with your image path
+        image: monitor2, // replace with your image path
     },
     // ... more items
 ];

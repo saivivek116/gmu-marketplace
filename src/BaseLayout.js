@@ -2,6 +2,7 @@
 import React from "react";
 import {
     AppBar,
+    Button,
     Toolbar,
     Typography,
     createTheme,
@@ -14,6 +15,7 @@ import {
 } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
+import logo from "../public/assets/gmu-logo.webp";
 
 const drawerWidth = 240;
 const menuItems = [
@@ -41,6 +43,10 @@ export default function BaseLayout({ children }) {
     const activePage = menuItems.find(
         (item) => location.pathname === item.path
     )?.text;
+    if (["/signin", "/signup", "/"].indexOf(location?.pathname) > -1) {
+        console.log(location.pathname);
+        return <>{children}</>;
+    }
 
     return (
         <ThemeProvider theme={theme}>
@@ -53,9 +59,13 @@ export default function BaseLayout({ children }) {
                     <Toolbar>
                         {/* Other AppBar content */}
                         <img
-                            src="/workspaces/gmu-marketplace/assets/gmu-logo.webp" // Replace with your logo path
+                            src={logo} // Replace with your logo path
                             alt="Logo"
-                            style={{ marginRight: '10px', width: '50px', height: 'auto' }} // Adjust size as needed
+                            style={{
+                                marginRight: "10px",
+                                width: "50px",
+                                height: "auto",
+                            }} // Adjust size as needed
                         />
                         <Typography
                             variant="h6"
@@ -65,7 +75,9 @@ export default function BaseLayout({ children }) {
                         >
                             {activePage || "Web App"}
                         </Typography>
-                        
+                        <Link to="/signin" style={{ textDecoration: "none" }}>
+                            <Button color="secondary">Sign Out</Button>
+                        </Link>
                     </Toolbar>
                 </AppBar>
 
