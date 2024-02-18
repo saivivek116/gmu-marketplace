@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import {
   Button,
   TextField,
@@ -10,8 +10,8 @@ import {
   Grid,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Link as RouterLink } from "react-router-dom";
-
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import axios from "axios";
 // Custom theme
 const theme = createTheme({
   palette: {
@@ -38,20 +38,40 @@ const theme = createTheme({
 const logoUrl = "/workspaces/gmu-marketplace/assets/gmu-logo.webp"; // Update this path if your image is located elsewhere
 
 export default function Signin() {
-    console.log("changes");
-  useEffect(() => {
-    document.body.style.backgroundImage = `url(${logoUrl})`;
-    document.body.style.backgroundSize = "cover";
-    document.body.style.backgroundPosition = "center";
-    document.body.style.backgroundAttachment = "fixed";
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-    return () => {
-      document.body.style.backgroundImage = "";
-      document.body.style.backgroundSize = "";
-      document.body.style.backgroundPosition = "";
-      document.body.style.backgroundAttachment = "";
-    };
-  }, []);
+  const handleEmailChange = (e) => setEmail(e.target.value);
+  const handlePasswordChange = (e) => setPassword(e.target.value);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      // Make a POST request to your backend with email and password
+      const response = await axios.post("http://localhost:8080/users/login", {
+        email,
+        passwordHash: password,
+      });
+
+      console.log("Login successful", response.data);
+
+      console.log(response.status, "status");
+        if (response.status === 200) {
+          // Redirect to the home page
+          localStorage.setItem("token","123");
+          navigate("/home");
+      } else {
+          // Handle other messages or errors accordingly
+          console.error("Login failed: Unexpected response message");
+          // Optionally, update the state or UI to inform the user
+      }    } catch (error) {
+      // Handle login failure
+      console.error("Login failed:", error);
+      // You can update the state or display an error message to the user
+    }
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -89,8 +109,10 @@ export default function Signin() {
               >
                 Log in
               </Typography>
-              <form style={{ width: "100%", marginTop: 3 }}>
+              <form style={{ width: "100%", marginTop: 3 }} onSubmit={handleSubmit}>
                 <TextField
+                  value={email}
+                  onChange={handleEmailChange}
                   variant="outlined"
                   margin="normal"
                   required
@@ -102,6 +124,8 @@ export default function Signin() {
                   autoFocus
                 />
                 <TextField
+                  value={password}
+                  onChange={handlePasswordChange}
                   variant="outlined"
                   margin="normal"
                   required
@@ -122,6 +146,7 @@ export default function Signin() {
                     backgroundColor: "#FFCC33",
                   }}
                 >
+
                   Log In
                 </Button>
                 <Link

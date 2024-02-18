@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { sha256 } from 'js-sha256';
 import axios from "axios";
 import {
   Button,
@@ -11,6 +12,7 @@ import {
   Grid,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 
 // Custom theme
 const theme = createTheme({
@@ -34,24 +36,26 @@ const theme = createTheme({
   },
 });
 
-const BASE_URL = "https://200c-100-36-180-3.ngrok-free.app/users/add";
+// const BASE_URL = "https://200c-100-36-180-3.ngrok-free.app/users/add";
+const BASE_URL = "http://localhost:8080/users/add";
 
 // Background image URL
 const logoUrl = "/workspaces/gmu-marketplace/assets/gmu-logo.webp"; // Update this path if your image is located elsewhere
 export default function Signup() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [netId, setNetId] = useState("");
+  const [netID, setnetID] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   // Define onChange handlers for each field
   const handleFirstNameChange = (e) => setFirstName(e.target.value);
   const handleLastNameChange = (e) => setLastName(e.target.value);
-  const handleNetIdChange = (e) => setNetId(e.target.value);
+  const handlenetIDChange = (e) => setnetID(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
   const handleConfirmPasswordChange = (e) => setConfirmPassword(e.target.value);
   const handleEmailChange = (e) => setEmail(e.target.value);
@@ -84,16 +88,26 @@ export default function Signup() {
 
     try {
       setLoading(true);
+      // const hashedPassword = sha256(password);
       const response = await axios.post(BASE_URL, {
         firstName,
         lastName,
-        netId,
+        netID,
         email,
-        password,
+        passwordHash: password,
         status: "active" // Assuming this is the format your backend expects
+      },{
+        headers:{
+          "Content-Type":"application/json",
+        }
       });
       setLoading(false);
       // Handle successful registration
+      // Check if the response status is 200
+      if (response.status === 200) {
+        // Redirect to the home page
+        navigate("/home");  // Update "/home" with the actual path of your home page
+      }
       // Redirect to the Discover page or display a success message
       console.log("Registration successful", response.data);
     } catch (error) {
@@ -165,15 +179,15 @@ export default function Signup() {
                   autoComplete="lname"
                 />
                 <TextField
-                  value={netId}
-                  onChange={(e) => setNetId(e.target.value)}
+                  value={netID}
+                  onChange={(e) => setnetID(e.target.value)}
                   variant="outlined"
                   margin="normal"
                   required
                   fullWidth
-                  id="netId"
-                  label="NetID"
-                  name="netId"
+                  id="netID"
+                  label="netID"
+                  name="netID"
                   autoComplete="net-id"
                 />
                 <TextField
