@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import {
     Drawer,
@@ -23,6 +23,7 @@ import table1 from "../../../public/assets/table 1.webp";
 import table2 from "../../../public/assets/table 2.webp";
 import monitor1 from "../../../public/assets/monitor 1.webp";
 import monitor2 from "../../../public/assets/monitor 2.webp";
+import { useNavigate } from "react-router-dom";
 
 const items = [
     {
@@ -55,137 +56,40 @@ const items = [
         price: "$40",
         image: monitor2, // replace with your image path
     },
-    // ... more items
 ];
 
 const drawerWidth = 240;
 
 const Discover = () => {
+    const navigate = useNavigate();
+    const [products, setProducts] = React.useState([]);
+    const [search, setSearch] = React.useState("");
+    const [loading, setLoading] = React.useState(true);
+    useEffect(() => {
+        async function getProducts() {
+            const response = await fetch("https://fakestoreapi.com/products");
+            const data = await response.json();
+            setLoading(false);
+            setProducts(data);
+        }
+        getProducts();
+    }, []);
     return (
-        // <Box
-        //     sx={{
-        //         display: "flex",
-        //         backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url(/bg-image.webp)`,
-        //         minHeight: "100vh",
-        //     }}
-        // >
-        //     <AppBar
-        //         position="fixed"
-        //         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        //     >
-        //         <Toolbar>
-        //             <img
-        //                 src="/gmu-logo.webp"
-        //                 alt="Logo"
-        //                 style={{ marginRight: "10px", width: "50px" }}
-        //             />
-
-        //             <Typography
-        //                 variant="h6"
-        //                 noWrap
-        //                 component="div"
-        //                 sx={{ flexGrow: 1 }}
-        //             >
-        //                 Discover
-        //             </Typography>
-        //             <div
-        //                 style={{
-        //                     display: "flex",
-        //                     alignItems: "center",
-        //                     width: "50%",
-        //                     justifyContent: "center",
-        //                 }}
-        //             >
-        //                 <SearchIcon />
-        //                 <InputBase
-        //                     placeholder="Search…"
-        //                     sx={{ ml: 1, flex: 1 }}
-        //                 />
-        //             </div>
-        //         </Toolbar>
-        //     </AppBar>
-
-        //     <Drawer
-        //         variant="permanent"
-        //         sx={{
-        //             width: drawerWidth,
-        //             flexShrink: 0,
-        //             [`& .MuiDrawer-paper`]: {
-        //                 width: drawerWidth,
-        //                 boxSizing: "border-box",
-        //             },
-        //         }}
-        //         PaperProps={{
-        //             style: {
-        //                 width: drawerWidth,
-        //                 backgroundColor: theme.palette.secondary.main, // GMU yellow background
-        //             },
-        //         }}
-        //     >
-        //         <Toolbar />
-        //         <Box sx={{ overflow: "auto" }}>
-        //             <List>
-        //                 {[
-        //                     "Home",
-        //                     "Posting",
-        //                     "Requests",
-        //                     "Messages",
-        //                     "Notifications",
-        //                     "Profile Page",
-        //                 ].map((text) => (
-        //                     <ListItem button key={text}>
-        //                         <ListItemText primary={text} />
-        //                     </ListItem>
-        //                 ))}
-        //             </List>
-        //         </Box>
-        //     </Drawer>
-
-        //     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        //         <Toolbar />
-        //         <Grid container spacing={2}>
-        //             {items.map((item, index) => (
-        //                 <Grid item xs={12} sm={6} md={4} key={index}>
-        //                     <Card>
-        //                         <CardMedia
-        //                             component="img"
-        //                             height="140"
-        //                             image={item.image}
-        //                             alt={item.name}
-        //                             style={{ objectFit: "contain" }} // Add this line
-        //                         />
-        //                         <CardContent>
-        //                             <Typography
-        //                                 gutterBottom
-        //                                 variant="h5"
-        //                                 component="div"
-        //                             >
-        //                                 {item.name}
-        //                             </Typography>
-        //                             <Typography
-        //                                 variant="body2"
-        //                                 color="text.secondary"
-        //                             >
-        //                                 {item.price}
-        //                             </Typography>
-        //                         </CardContent>
-        //                     </Card>
-        //                 </Grid>
-        //             ))}
-        //         </Grid>
-        //     </Box>
-        // </Box>
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
             <Toolbar />
             <Grid container spacing={2}>
-                {items.map((item, index) => (
-                    <Grid item xs={12} sm={6} md={4} key={index}>
-                        <Card>
+                {products.map((item, index) => (
+                    <Grid item xs={12} sm={6} md={4} key={item.id}>
+                        <Card
+                            onClick={() => {
+                                navigate(`/product/${index}`);
+                            }}
+                        >
                             <CardMedia
                                 component="img"
                                 height="140"
                                 image={item.image}
-                                alt={item.name}
+                                alt={item.title}
                                 style={{ objectFit: "contain" }} // Add this line
                             />
                             <CardContent>
@@ -194,13 +98,13 @@ const Discover = () => {
                                     variant="h5"
                                     component="div"
                                 >
-                                    {item.name}
+                                    {item.title}
                                 </Typography>
                                 <Typography
                                     variant="body2"
                                     color="text.secondary"
                                 >
-                                    {item.price}
+                                    {`${item.price}$`}
                                 </Typography>
                             </CardContent>
                         </Card>

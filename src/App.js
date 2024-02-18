@@ -12,6 +12,7 @@ import BaseLayout from "./BaseLayout";
 import Error from "./Error";
 import ProtectedRoute from "./ProtectedRoute";
 import { AuthProvider } from "./AuthContext";
+import ProductDetailsPage from "./components/productdetails/ProductDetails";
 
 export const routes = [
     { path: "/", element: <Signin /> },
@@ -23,6 +24,7 @@ export const routes = [
     { path: "/notifications", element: <Notifications /> },
     { path: "/post", element: <Post /> },
     { path: "/messages", element: <Messages /> },
+    { path: "/product/:id", element: <ProductDetailsPage /> },
     { path: "*", element: <Error /> },
 ];
 
